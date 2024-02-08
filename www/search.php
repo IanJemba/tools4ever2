@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['voornaam']) && isset($_SESSION['achternaam'] )){
+if (isset($_SESSION['voornaam']) && isset($_SESSION['achternaam'])) {
     echo $_SESSION['voornaam'] . " " . $_SESSION['achternaam'];
 }
 
@@ -8,21 +8,26 @@ if(isset($_SESSION['voornaam']) && isset($_SESSION['achternaam'] )){
 $time = time();
 echo date('d-m-Y H:i:s', $time);
 
-if(isset($_GET['search_submit'] )){
-    if(!empty($_GET['search'])){
+if (isset($_GET['search_submit'])) {
+    if (!empty($_GET['search'])) {
         require 'database.php';
         $zoekterm = $_GET['search'];
         $sql = "SELECT * FROM tools WHERE name LIKE '$zoekterm'";
-        $result = mysqli_query($conn, $sql);
-        $tools = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        // $result = mysqli_query($conn, $sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':zoekterm', $zoekterm);
+        $stmt->execute();
+        $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
 
+
 $sql = "SELECT COUNT(*) AS aantal FROM tools";
-$result = mysqli_query($conn, $sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 $resultaat_array = mysqli_fetch_assoc($result);
-$aantal = $resultaat_array['aantal'];
+$tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo $aantal
 
 

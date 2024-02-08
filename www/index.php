@@ -3,8 +3,16 @@ session_start();
 require 'database.php';
 
 $sql = "SELECT * FROM tools";
-$result = mysqli_query($conn, $sql);
-$tools = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// $result = mysqli_query($conn, $sql);
+// $tools = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+// set the resulting array to associative
+$tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 require 'header.php';
 ?>

@@ -1,6 +1,7 @@
-html, body{
-    margin:0px;
-    padding:0px;
+html,
+body {
+    margin: 0px;
+    padding: 0px;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -18,14 +19,14 @@ header {
     z-index: 9999;
 }
 
-header nav{
+header nav {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-header nav ul{
+header nav ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -36,12 +37,12 @@ header nav ul li {
 }
 
 
-header nav ul li a{
+header nav ul li a {
     text-decoration: none;
-    color:blueviolet
+    color: blueviolet
 }
 
-header nav ul li a:hover{    
+header nav ul li a:hover {
     color: white;
 }
 
@@ -71,18 +72,18 @@ header nav ul li a:hover{
     box-shadow: 1px 1px 1px 1px green;
 }
 
-.dropdown:hover > a{
+.dropdown:hover>a {
     color: white;
 }
 
 
 
-main{
+main {
     margin-top: 10px;
-    padding:20px;
+    padding: 20px;
 }
 
-main .container{
+main .container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,35 +93,37 @@ main .container{
 
 }
 
-.container .product{
+.container .product {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 25%; /* Adjust this value as needed */
+    width: 25%;
+    /* Adjust this value as needed */
     margin: 10px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
+    /* Include padding and border in element's total width and height */
     border: 1px solid black;
     padding: 5px;
 }
 
-.container .product img{
+.container .product img {
     width: 100%;
-    height: 200px;  
+    height: 200px;
     object-fit: contain;
 
 
 }
 
-.container .product a{
+.container .product a {
     text-decoration: none;
-    color:blueviolet;
+    color: blueviolet;
     border: 1px solid goldenrod;
     padding: 5px;
     box-shadow: 1px 1px 1px 1px goldenrod;
-} 
+}
 
-.btn{
+.btn {
     background-color: goldenrod;
     border: 1px solid goldenrod;
     padding: 5px;
@@ -129,7 +132,7 @@ main .container{
     text-decoration: none;
 }
 
-.btn-success{
+.btn-success {
     background-color: green;
     border: 1px solid green;
     padding: 5px;
@@ -138,7 +141,7 @@ main .container{
     text-decoration: none;
 }
 
-.btn-danger{
+.btn-danger {
     background-color: red;
     border: 1px solid red;
     padding: 5px;
@@ -169,44 +172,47 @@ table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.user-detail{
+.user-detail {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 50%;
     margin: 10px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
+    /* Include padding and border in element's total width and height */
     border: 1px solid black;
     padding: 5px;
 }
 
-.container form{
+.container form {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 50%; /* Adjust this value as needed */
+    width: 50%;
+    /* Adjust this value as needed */
     margin: 10px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
+    /* Include padding and border in element's total width and height */
     border: 1px solid black;
     padding: 5px;
 }
 
-form div{
-    margin-bottom:3px;
+form div {
+    margin-bottom: 3px;
 }
 
-form label{
+form label {
     width: 100px;
     text-align: left;
     display: inline-block;
 }
 
-.erd{
+.erd {
     width: 300px;
     height: 340px;
-   
+
     background-color: #ffffffba;
 }
 
@@ -221,6 +227,7 @@ form label{
     left: 25px;
     display: block;
 }
+
 .highlight {
     color: red;
     font-weight: bold;
@@ -231,7 +238,7 @@ form label{
     font-weight: bold;
 }
 
-main{
+main {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,49 +248,49 @@ main{
     /*  */
 }
 
-main .container{
+main .container {
     width: 100%;
 }
 
-main .container form{
-    padding:20px;
+main .container form {
+    padding: 20px;
     box-shadow: 1px 1px 1px 1px goldenrod;
-    
+
 }
 
-main .container form div{
+main .container form div {
     margin-bottom: 20px;
 }
 
-.card{
+.card {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: 0px;
-    padding:20px;   
-    border:1px solid goldenrod;
+    padding: 20px;
+    border: 1px solid goldenrod;
     width: 500px;
 }
 
-.card p{
+.card p {
     font-size: 40px;
 }
 
-.card-group{
+.card-group {
     width: 100%;
     display: flex;
-    flex-direction: row ;
+    flex-direction: row;
     align-items: center;
     justify-content: space-around;
-        
+
 }
 
-input{
+input {
     line-height: 2.0;
 }
 
-.row{
+.row {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -292,7 +299,7 @@ input{
 
 }
 
-.col{
+.col {
     width: 50%;
     display: flex;
     justify-content: center;
