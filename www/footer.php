@@ -1,4 +1,6 @@
-<?php if (isset($sql)) : ?>
+<?php
+// Path: www/dashboard.php
+if (isset($sql)) : ?>
     <div class="sql-statement">
         <?php if (!is_array($sql)) : ?>
             <p><strong>SQL Statement: </strong><span id="sql-statement"><?php echo htmlspecialchars($sql); ?></span></p>
