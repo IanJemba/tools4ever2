@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require 'database.php';
+
 if (!isset($_SESSION['user_id'])) {
     echo "You are not logged in, please login. ";
     echo "<a href='login.php'>Login here</a>";
@@ -11,44 +13,63 @@ if ($_SESSION['role'] != 'admin') {
     echo "You are not allowed to view this page, please login as admin";
     exit;
 }
-require 'database.php';
 
-$sql = "SELECT * FROM users";
-$result = mysqli_query($conn, $sql);
-$users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// check method
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    echo "You are not allowed to view this page";
+    exit;
+}
 
-require 'header.php';
-?>
-<main>
-    <div class="container">
+// check if all fields are filled in
+if (empty($_POST['firstname']) || empty($_POST['lastname']) || empty($_POST['email']) || empty($_POST['role']) || empty($_POST['address']) || empty($_POST['city']) || empty($_POST['backgroundColor']) || empty($_POST['font'])) {
+    echo "Please fill in all fields";
+    exit;
+}
 
+$email = $_POST['email'];
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
+$role = $_POST['role'];
+$address = $_POST['address'];
+$city = $_POST['city'];
+$is_active = 1;
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Voornaam</th>
-                    <th>Achternaam</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acties</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <td><?php echo $user['firstname'] ?></td>
-                        <td><?php echo $user['lastname'] ?></td>
-                        <td><?php echo $user['email'] ?></td>
-                        <td><?php echo $user['role'] ?></td>
-                        <td>
-                            <a href="users_detail.php?id=<?php echo $user['id'] ?>">Bekijk</a>
-                            <a href="users_edit.php?id=<?php echo $user['id'] ?>">Wijzig</a>
-                            <a href="users_delete.php?id=<?php echo $user['id'] ?>">Verwijder</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</main>
-<?php require 'footer.php' ?>
+// Insert user data
+$sql = "INSERT INTO users (email, password, firstname, lastname, role, address, city, is_active) VALUES (:email, :password, :firstname, :lastname, :role, :address, :city, :is_active)";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':email', $email);
+$stmt->bindParam(':password', $password);
+$stmt->bindParam(':firstname', $firstname);
+$stmt->bindParam(':lastname', $lastname);
+$stmt->bindParam(':role', $role);
+$stmt->bindParam(':address', $address);
+$stmt->bindParam(':city', $city);
+$stmt->bindParam(':is_active', $is_active);
+
+try {
+    $stmt->execute();
+
+    // Get the inserted user ID
+    $user_id = $conn->lastInsertId();
+
+    // Insert user settings
+    $backgroundColor = $_POST['backgroundColor'];
+    $font = $_POST['font'];
+    $sqlSettings = "INSERT INTO user_settings (user_id, backgroundColor, font) VALUES (:user_id, :backgroundColor, :font)";
+    $stmtSettings = $conn->prepare($sqlSettings);
+    $stmtSettings->bindParam(':user_id', $user_id);
+    $stmtSettings->bindParam(':backgroundColor', $backgroundColor);
+    $stmtSettings->bindParam(':font', $font);
+    $stmtSettings->execute();
+
+    // Check the number of affected rows
+    if ($stmtSettings->rowCount() > 0) {
+        header("Location: users_index.php");
+        exit;
+    } else {
+        echo "Something went wrong";
+    }
+} catch (PDOException $e) {
+    echo "Database Error: " . $e->getMessage();
+}

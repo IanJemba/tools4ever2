@@ -2,8 +2,6 @@
 
 session_start();
 
-
-
 if (!isset($_SESSION['user_id'])) {
     echo "You are not logged in, please login. ";
     echo "<a href='login.php'>Login here</a>";
@@ -15,11 +13,12 @@ if ($_SESSION['role'] != 'admin') {
     exit;
 }
 
-//check method
+// Check method
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     echo "You are not allowed to view this page";
     exit;
 }
+
 require 'database.php';
 
 $name = $_POST['name'];
@@ -28,11 +27,17 @@ $price = $_POST['price'];
 $brand = $_POST['brand'];
 $image = $_POST['image'];
 
+$sql = "INSERT INTO tools (tool_name, tool_category, tool_price, tool_brand, tool_image) VALUES (:name, :category, :price, :brand, :image)";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':name', $name);
+$stmt->bindParam(':category', $category);
+$stmt->bindParam(':price', $price);
+$stmt->bindParam(':brand', $brand);
+$stmt->bindParam(':image', $image);
+$stmt->execute();
 
-$sql = "INSERT INTO tools (tool_name, tool_category, tool_price, tool_brand, tool_image) VALUES ('$name', '$category', '$price', '$brand', '$image')";
-$result = mysqli_query($conn, $sql);
-
-if ($result) {
+// Check the number of affected rows
+if ($stmt->rowCount() > 0) {
     header("Location: tool_index.php");
     exit;
 }

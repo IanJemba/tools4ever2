@@ -12,15 +12,16 @@ if ($_SESSION['role'] != 'admin') {
     exit;
 }
 
-
 require 'database.php';
 
 $sql = "SELECT * FROM tools";
-$result = mysqli_query($conn, $sql);
-$tools = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require 'header.php';
 ?>
+
 <main>
     <table>
         <thead>
@@ -37,7 +38,7 @@ require 'header.php';
                 <tr>
                     <td><?php echo $tool['tool_name'] ?></td>
                     <td><?php echo $tool['tool_category'] ?></td>
-                    <td><?php echo $tool['tool_price'] ?></td>
+                    <td>€ <?php echo number_format($tool['tool_price'] / 100, 2, ',', ''); ?></td> <!-- Display the price properly -->
                     <td><?php echo $tool['tool_brand'] ?></td>
                     <td>
                         <a href="tool_detail.php?id=<?php echo $tool['tool_id'] ?>">Bekijk</a>
@@ -49,4 +50,5 @@ require 'header.php';
         </tbody>
     </table>
 </main>
-<?php require 'footer.php' ?>
+
+<?php require 'footer.php'; ?>

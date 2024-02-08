@@ -5,10 +5,13 @@ require 'database.php';
 
 if (isset($_GET['id'])) {
     $tool_id = $_GET['id'];
-    $sql = "SELECT * FROM tools WHERE tool_id = $tool_id";
-    $result = mysqli_query($conn, $sql);
-    $tool = mysqli_fetch_assoc($result);
+    $sql = "SELECT * FROM tools WHERE tool_id = :tool_id";  // Changed the query to use a named parameter
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':tool_id', $tool_id);  // Bind the parameter
+    $stmt->execute();
+    $tool = $stmt->fetch(PDO::FETCH_ASSOC);  // Use fetch instead of fetchAll since you are expecting a single row
 }
+
 require 'header.php';
 ?>
 
@@ -30,7 +33,6 @@ require 'header.php';
                         </p>
                     </div>
                 </div>
-
             </div>
         <?php else : ?>
             <p>Tool not found.</p>
