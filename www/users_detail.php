@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require 'database.php';
@@ -17,32 +16,33 @@ if ($_SESSION['role'] != 'admin') {
 
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM users LEFT JOIN user_settings ON user_settings.user_id = users.id WHERE users.id =  $id";
+$sql = "SELECT * FROM users LEFT JOIN user_settings ON user_settings.user_id = users.id WHERE users.id = :id";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':zoekterm', $zoekterm);
+$stmt->bindParam(':id', $id);
 $stmt->execute();
-$tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+$tools = $stmt->fetch(PDO::FETCH_ASSOC);
 
 require 'header.php';
-
 ?>
 
 <main>
     <div class="container">
-        <?php if (isset($user)) : ?>
+        <?php if (isset($tools)) : ?>
             <div class="user-detail">
-                <h3><?php echo $user['firstname'] ?></h3>
-                <p><?php echo $user['lastname'] ?></p>
-                <p><?php echo $user['email'] ?></p>
-                <p><?php echo $user['role'] ?></p>
-                <p><?php echo $user['address'] ?></p>
-                <p><?php echo $user['city'] ?></p>
-                <p><?php echo $user['is_active'] == 1 ? "is actief" : "Is niet actief"  ?></p>
-                <p><?php echo $user['backgroundColor'] ?></p>
-                <p><?php echo $user['font'] ?></p>
-            <?php else : ?>
-                Geen gebruiker gevonden
-            <?php endif; ?>
+                <h3><?php echo $tools['firstname'] ?></h3>
+                <p><?php echo $tools['lastname'] ?></p>
+                <p><?php echo $tools['email'] ?></p>
+                <p><?php echo $tools['role'] ?></p>
+                <p><?php echo $tools['address'] ?></p>
+                <p><?php echo $tools['city'] ?></p>
+                <p><?php echo $tools['is_active'] == 1 ? "is actief" : "Is niet actief" ?></p>
+                <p><?php echo $tools['backgroundColor'] ?></p>
+                <p><?php echo $tools['font'] ?></p>
+            </div>
+        <?php else : ?>
+            Geen gebruiker gevonden
+        <?php endif; ?>
+    </div>
 </main>
+
 <?php require 'footer.php' ?>
