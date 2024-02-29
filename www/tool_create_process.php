@@ -25,7 +25,7 @@ $name = $_POST['name'];
 $category = $_POST['category'];
 $price = $_POST['price'];
 $brand = $_POST['brand'];
-$image = $_POST['image'];
+$image = $_FILES["image"]["name"];
 
 $sql = "INSERT INTO tools (tool_name, tool_category, tool_price, tool_brand, tool_image) VALUES (:name, :category, :price, :brand, :image)";
 $stmt = $conn->prepare($sql);

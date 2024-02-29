@@ -14,7 +14,7 @@ if ($_SESSION['role'] != 'admin') {
 
 require 'database.php';
 
-$sql = "SELECT * FROM tools";
+$sql = "SELECT * FROM tools JOIN categories ON categories.category_id = tools.tool_category";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,8 +37,8 @@ require 'header.php';
             <?php foreach ($tools as $tool) : ?>
                 <tr>
                     <td><?php echo $tool['tool_name'] ?></td>
-                    <td><?php echo $tool['tool_category'] ?></td>
-                    <td>€ <?php echo number_format($tool['tool_price'] / 100, 2, ',', ''); ?></td> <!-- Display the price properly -->
+                    <td><?php echo $tool['name'] ?></td>
+                    <td>€ <?php echo $tool['tool_price']; ?></td>
                     <td><?php echo $tool['tool_brand'] ?></td>
                     <td>
                         <a href="tool_detail.php?id=<?php echo $tool['tool_id'] ?>">Bekijk</a>

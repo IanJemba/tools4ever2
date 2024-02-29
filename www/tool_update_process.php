@@ -13,9 +13,18 @@ $sql = "UPDATE tools SET tool_name = :name,
         tool_price = :price,
         tool_brand = :brand,
         tool_image = :image
-        WHERE id = $id";
-$stmt->prepare($sql);
+        WHERE tool_id = $id";
+
+$stmt = $conn->prepare($sql);
 $stmt->bindParam(":name", $name);
 $stmt->bindParam(":category", $category);
 $stmt->bindParam(":price", $price);
 $stmt->bindParam(":brand", $brand);
+$stmt->bindParam(":image", $image);
+
+if ($stmt->execute()) {
+        header("Location: tool_index.php");
+        exit;
+}
+
+echo "Something went wrong";
